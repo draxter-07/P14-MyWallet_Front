@@ -1,8 +1,46 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { useState } from 'react'
 
 export default function HomePage() {
+  let dataTransactions = [{name: "Almoço mãe", date: "30/11", type: "negativo", value: "120,00"}, {name: "Salário", date: "15/11", type: "positivo", value: "3000,00"}]
+  // função Axios para o dataTransactions já contém a soma do saldo
+  function Saldo(){
+    let sum = 0;
+    let color;
+    for (let a = 0; a < dataTransactions.length; a++){
+      if (dataTransactions[a].type == "positivo"){
+        sum = sum + Number(dataTransactions[a].value.replaceAll(",", "."));
+      }
+      else if (dataTransactions[a].type == "negativo"){
+        sum = sum - Number(dataTransactions[a].value.replaceAll(",", "."));
+      }
+    }
+    if (sum < 0){
+      color = "negativo";
+    }
+    else if (sum >= 0){
+      color = "positivo";
+    }
+    sum = sum.toString().replaceAll("-", "").replace(".", ",");
+    // Formatação do número
+    let foundComa = -1;
+    for (let b = 0; b < sum.length; b++){
+      if (sum[b] == ","){
+        foundComa = b;
+      }
+    }
+    if (foundComa == -1){
+      sum = sum + ",00";
+    }
+    else if (foundComa == sum.length - 2){
+      sum = sum + "0";
+    }
+    return(
+      <Value color={color}>{sum}</Value>
+    )
+  }
   return (
     <HomeContainer>
       <Header>
@@ -12,26 +50,20 @@ export default function HomePage() {
 
       <TransactionsContainer>
         <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
-
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+          {dataTransactions.map(item =>
+            <ListItemContainer>
+              <div>
+                <span>{item.date}</span>
+                <strong>{item.name}</strong>
+              </div>
+              <Value color={item.type}>{item.value}</Value>
+            </ListItemContainer>
+          )}
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Saldo/>
         </article>
       </TransactionsContainer>
 

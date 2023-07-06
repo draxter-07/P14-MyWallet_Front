@@ -1,13 +1,15 @@
 import styled from "styled-components"
+import { useParams } from 'react-router-dom' 
 
 export default function TransactionsPage() {
+  let type = useParams().tipo.toString().replaceAll("saida", "saída");
   return (
     <TransactionsContainer>
-      <h1>Nova TRANSAÇÃO</h1>
+      <h1>Nova {type}</h1>
       <form>
         <input placeholder="Valor" type="text"/>
         <input placeholder="Descrição" type="text" />
-        <button>Salvar TRANSAÇÃO</button>
+        <button>Salvar {type}</button>
       </form>
     </TransactionsContainer>
   )
