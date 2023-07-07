@@ -3,6 +3,9 @@ import styled from "styled-components"
 import MyWalletLogo from "../components/MyWalletLogo"
 import { useState } from 'react'
 import axios from 'axios'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export default function SignUpPage() {
   const [name, setName] = useState('');
@@ -17,7 +20,7 @@ export default function SignUpPage() {
     if (password == confPassword && password != ''){
       // Envia para o backEnd
       const objSign = {name: name, email: email, password: password};
-      const req = axios.post('http://localhost:5000/cadastro', objSign);
+      const req = axios.post(VITE_API_URL + '/cadastro', objSign);
       req.then(navigate("/"));
       req.catch(response => alert(response.message));
     }
@@ -30,14 +33,14 @@ export default function SignUpPage() {
     <SingUpContainer>
       <form onSubmit={signUp}>
         <MyWalletLogo />
-        <input placeholder="Nome" type="text" onChange={e => setName(e.target.value)} disabled={dis} value={name}/>
-        <input placeholder="E-mail" type="email" onChange={e => setEmail(e.target.value)} disabled={dis} value={email}/>
-        <input placeholder="Senha" type="password" autoComplete="new-password" onChange={e => setPassword(e.target.value)} disabled={dis} value={password}/>
-        <input placeholder="Confirme a senha" type="password" autoComplete="new-password" onChange={e => setConfPassword(e.target.value)} disabled={dis} value={confPassword}/>
-        <button type="submit">Cadastrar</button>
+        <input data-test="name" placeholder="Nome" type="text" onChange={e => setName(e.target.value)} disabled={dis} value={name}/>
+        <input data-test="email" placeholder="E-mail" type="email" onChange={e => setEmail(e.target.value)} disabled={dis} value={email}/>
+        <input data-test="password" placeholder="Senha" type="password" autoComplete="new-password" onChange={e => setPassword(e.target.value)} disabled={dis} value={password}/>
+        <input data-test="conf-password" placeholder="Confirme a senha" type="password" autoComplete="new-password" onChange={e => setConfPassword(e.target.value)} disabled={dis} value={confPassword}/>
+        <button data-test="sign-up-submit" type="submit">Cadastrar</button>
       </form>
 
-      <Link>
+      <Link to="/">
         Já tem uma conta? Entre agora!
       </Link>
     </SingUpContainer>

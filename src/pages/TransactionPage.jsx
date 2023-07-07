@@ -1,5 +1,8 @@
 import styled from "styled-components"
 import { useParams } from 'react-router-dom' 
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export default function TransactionsPage() {
   let type = useParams().tipo.toString().replaceAll("saida", "saída");
@@ -7,9 +10,9 @@ export default function TransactionsPage() {
     <TransactionsContainer>
       <h1>Nova {type}</h1>
       <form>
-        <input placeholder="Valor" type="text"/>
-        <input placeholder="Descrição" type="text" />
-        <button>Salvar {type}</button>
+        <input data-test="registry-amount-input" placeholder="Valor" type="text"/>
+        <input data-test="registry-name-input" placeholder="Descrição" type="text" />
+        <button data-test="registry-save">Salvar {type}</button>
       </form>
     </TransactionsContainer>
   )

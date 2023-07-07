@@ -2,6 +2,9 @@ import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useState } from 'react'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export default function HomePage() {
   let dataTransactions = [{name: "Almoço mãe", date: "30/11", type: "negativo", value: "120,00"}, {name: "Salário", date: "15/11", type: "positivo", value: "3000,00"}]
@@ -38,14 +41,14 @@ export default function HomePage() {
       sum = sum + "0";
     }
     return(
-      <Value color={color}>{sum}</Value>
+      <Value data-test="total-amount" color={color}>{sum}</Value>
     )
   }
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
-        <BiExit />
+        <h1 data-test="user-name">Olá, Fulano</h1>
+        <BiExit data-test="logout"/>
       </Header>
 
       <TransactionsContainer>
@@ -54,9 +57,9 @@ export default function HomePage() {
             <ListItemContainer>
               <div>
                 <span>{item.date}</span>
-                <strong>{item.name}</strong>
+                <strong data-test="registry-name">{item.name}</strong>
               </div>
-              <Value color={item.type}>{item.value}</Value>
+              <Value data-test="registry-amount" color={item.type}>{item.value}</Value>
             </ListItemContainer>
           )}
         </ul>
@@ -71,11 +74,11 @@ export default function HomePage() {
       <ButtonsContainer>
         <button>
           <AiOutlinePlusCircle />
-          <p>Nova <br /> entrada</p>
+          <p data-test="new-income">Nova <br /> entrada</p>
         </button>
         <button>
           <AiOutlineMinusCircle />
-          <p>Nova <br />saída</p>
+          <p data-test="new-expense">Nova <br />saída</p>
         </button>
       </ButtonsContainer>
 
