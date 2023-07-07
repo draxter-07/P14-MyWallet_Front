@@ -3,9 +3,6 @@ import styled from "styled-components"
 import MyWalletLogo from "../components/MyWalletLogo"
 import { useState } from 'react'
 import axios from 'axios'
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 export default function SignUpPage() {
   const [name, setName] = useState('');
@@ -20,7 +17,7 @@ export default function SignUpPage() {
     if (password == confPassword && password != ''){
       // Envia para o backEnd
       const objSign = {name: name, email: email, password: password};
-      const req = axios.post(VITE_API_URL + '/cadastro', objSign);
+      const req = axios.post(process.env.VITE_API_URL + '/cadastro', objSign);
       req.then(navigate("/"));
       req.catch(response => alert(response.message));
     }

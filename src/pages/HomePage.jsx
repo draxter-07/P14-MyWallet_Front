@@ -2,9 +2,6 @@ import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useState } from 'react'
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 export default function HomePage() {
   let dataTransactions = [{name: "Almoço mãe", date: "30/11", type: "negativo", value: "120,00"}, {name: "Salário", date: "15/11", type: "positivo", value: "3000,00"}]

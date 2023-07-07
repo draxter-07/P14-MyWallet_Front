@@ -1,8 +1,5 @@
 import styled from "styled-components"
 import { useParams } from 'react-router-dom' 
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 export default function TransactionsPage() {
   let type = useParams().tipo.toString().replaceAll("saida", "saída");
