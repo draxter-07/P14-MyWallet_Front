@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
 import { useState } from "react"
+import axios from 'axios'
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -9,9 +10,9 @@ export default function SignIn() {
   const navigate = useNavigate();
   function signIn(){
     const objSign = {email: email, password: password};
-    const req = axios.post(process.env.VITE_API_URL + '/login', objSign);
-    req.then(navigate("/home")); //pegar o r.mesagecomo token
-    req.catch(response => alert(response.message));
+    const req = axios.post(import.meta.env.VITE_API_URL + '/login', objSign);
+    //req.then(navigate("/home")); //pegar o r.mesagecomo token
+    //req.catch(response => alert(response));
   }
   return (
     <SingInContainer>
