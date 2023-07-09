@@ -23,13 +23,7 @@ export default function HomePage() {
     }, []);
 
   function Saldo(){
-    const Value = styled.div`
-      font-size: 16px;
-      text-align: right;
-      color: ${prop.color == "positivo" ? "green": "red"}
-    `
     let sum = 0;
-    let color;
     for (let a = 0; a < dataTransactions.length; a++){
       if (dataTransactions[a].type == "positivo"){
         sum = sum + Number(dataTransactions[a].value.replaceAll(",", "."));
@@ -52,6 +46,11 @@ export default function HomePage() {
     else if (foundComa == sum.length - 2){
       sum = sum + "0";
     }
+    const Value = styled.div`
+      font-size: 16px;
+      text-align: right;
+      color: ${sum > 0 ? "green": "red"}
+    `
     return(
       <Value data-test="total-amount">{sum}</Value>
     )
