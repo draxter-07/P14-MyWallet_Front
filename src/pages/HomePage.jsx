@@ -1,11 +1,23 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 export default function HomePage() {
-  let dataTransactions = [{name: "Almoço mãe", date: "30/11", type: "negativo", value: "120,00"}, {name: "Salário", date: "15/11", type: "positivo", value: "3000,00"}]
-  // função Axios para o dataTransactions já contém a soma do saldo
+  const navigate = useNavigate();
+  const token = localStorage.getItem("MyWalletUser");
+  axios.defaults.headers.common['Authorization'] = token;
+
+  const [dataTransactions, setDataTrans] = useState([]);
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    axios.get(import.meta.env.VITE_API_URL + "/home")
+      .then(resposta => {setDataTrans(resposta.data.transactions); setUser(resposta.data.name)})
+      .catch(response => alert(response.response.data));
+    }, []);
+
   function Saldo(){
     let sum = 0;
     let color;
@@ -41,10 +53,11 @@ export default function HomePage() {
       <Value data-test="total-amount" color={color}>{sum}</Value>
     )
   }
+
   return (
     <HomeContainer>
       <Header>
-        <h1 data-test="user-name">Olá, Fulano</h1>
+        <h1 data-test="user-name">Olá, {user}</h1>
         <BiExit data-test="logout"/>
       </Header>
 
@@ -69,11 +82,11 @@ export default function HomePage() {
 
 
       <ButtonsContainer>
-        <button>
+        <button onClick={event => {event.preventDefault(); navigate("/nova-transacao/entrada")}}>
           <AiOutlinePlusCircle />
           <p data-test="new-income">Nova <br /> entrada</p>
         </button>
-        <button>
+        <button onClick={event => {event.preventDefault(); navigate("/nova-transacao/saida")}}> 
           <AiOutlineMinusCircle />
           <p data-test="new-expense">Nova <br />saída</p>
         </button>

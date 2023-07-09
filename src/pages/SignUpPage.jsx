@@ -11,14 +11,15 @@ export default function SignUpPage() {
   const [confPassword, setConfPassword] = useState('');
   const [dis, setDis] = useState(false);
   const navigate = useNavigate();
-  function signUp(){
+  function signUp(event){
+    event.preventDefault();
     setDis(!dis);
     // Verifica se a senha é a mesma
     if (password == confPassword && password != ''){
       // Envia para o backEnd
       const objSign = {name: name, email: email, password: password};
       axios.post(import.meta.env.VITE_API_URL + '/cadastro', objSign)
-        .then(resposta => {console.log(resposta)})
+        .then(resposta => navigate("/"))
         .catch(response => alert(response.response.data));
     }
     else{
@@ -28,7 +29,7 @@ export default function SignUpPage() {
   }
   return (
     <SingUpContainer>
-      <form onSubmit={signUp}>
+      <form onSubmit={event => signUp(event)}>
         <MyWalletLogo />
         <input data-test="name" placeholder="Nome" type="text" onChange={e => setName(e.target.value)} disabled={dis} value={name}/>
         <input data-test="email" placeholder="E-mail" type="email" onChange={e => setEmail(e.target.value)} disabled={dis} value={email}/>

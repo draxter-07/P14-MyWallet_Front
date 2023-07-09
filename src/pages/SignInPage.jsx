@@ -8,15 +8,16 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  function signIn(){
+  function signIn(event){
+    event.preventDefault();
     const objSign = {email: email, password: password};
     axios.post(import.meta.env.VITE_API_URL + '/login', objSign)
-      .then(resposta => {console.log(resposta); navigate("/home")})
+      .then(resposta => {localStorage.setItem("MyWalletUser", resposta.data); navigate("/home")})
       .catch(response => alert(response.response.data));
   }
   return (
     <SingInContainer>
-      <form onSubmit={signIn}>
+      <form onSubmit={event => signIn(event)}>
         <MyWalletLogo />
         <input data-test="email" placeholder="E-mail" type="email" onChange={e => setEmail(e.target.value)} value={email}/>
         <input data-test="password" placeholder="Senha" type="password" autoComplete="new-password" onChange={e => setPassword(e.target.value)} value={password}/>
