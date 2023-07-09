@@ -49,7 +49,7 @@ export default function HomePage() {
     const Value = styled.div`
       font-size: 16px;
       text-align: right;
-      color: ${sum > 0 ? "green": "red"}
+      color: ${sum >= 0 ? "green": "red"}
     `
     return(
       <Value data-test="total-amount">{sum}</Value>
@@ -57,19 +57,7 @@ export default function HomePage() {
   }
 
   function Valor(prop){
-    const Value = styled.div`
-      font-size: 16px;
-      text-align: right;
-      color: ${prop.color == "positivo" ? "green": "red"}
-    `
     let sum = prop.value.replaceAll(".", ",");
-    let color;
-    if (sum < 0){
-      color = "negativo";
-    }
-    else if (sum >= 0){
-      color = "positivo";
-    }
     let foundComa = -1;
     for (let b = 0; b < sum.length; b++){
       if (sum[b] == ","){
@@ -82,6 +70,11 @@ export default function HomePage() {
     else if (foundComa == sum.length - 2){
       sum = sum + "0";
     }
+    const Value = styled.div`
+      font-size: 16px;
+      text-align: right;
+      color: ${prop.type == "positivo" ? "green": "red"}
+    `
     return(
       <Value data-test="registry-amount">{sum}</Value>
     )
@@ -108,7 +101,7 @@ export default function HomePage() {
                 <span>{item.date}</span>
                 <strong data-test="registry-name">{item.name}</strong>
               </div>
-              <Valor color={item.type} value={item.value}/>
+              <Valor type={item.type} value={item.value}/>
             </ListItemContainer>
           )}
         </ul>
