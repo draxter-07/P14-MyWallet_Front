@@ -24,14 +24,16 @@ export default function HomePage() {
 
   function Saldo(){
     let sum = 0;
+    let sumValue;
     for (let a = 0; a < dataTransactions.length; a++){
       if (dataTransactions[a].type == "positivo"){
-        sum = sum + Number(dataTransactions[a].value.replaceAll(",", "."));
+        sum = sum + Number(dataTransactions[a].value.toString().replaceAll(",", "."));
       }
       else if (dataTransactions[a].type == "negativo"){
-        sum = sum - Number(dataTransactions[a].value.replaceAll(",", "."));
+        sum = sum - Number(dataTransactions[a].value.toString().replaceAll(",", "."));
       }
     }
+    sumValue = sum;
     sum = sum.toString().replaceAll("-", "").replace(".", ",");
     // Formatação do número
     let foundComa = -1;
@@ -49,7 +51,7 @@ export default function HomePage() {
     const Value = styled.div`
       font-size: 16px;
       text-align: right;
-      color: ${sum >= 0 ? "green": "red"}
+      color: ${sumValue >= 0 ? "green": "red"}
     `
     return(
       <Value data-test="total-amount">{sum}</Value>
