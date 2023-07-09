@@ -8,7 +8,11 @@ import { useNavigate } from "react-router-dom"
 export default function HomePage() {
   const navigate = useNavigate();
   const token = localStorage.getItem("MyWalletUser");
+  if (token == "undefined"){
+    window.location.assign("/");
+  }
   axios.defaults.headers.common['Authorization'] = token;
+  
 
   const [dataTransactions, setDataTrans] = useState([]);
   const [user, setUser] = useState("");
@@ -19,6 +23,10 @@ export default function HomePage() {
     }, []);
 
   function Saldo(){
+    const Value = styled.div`
+      font-size: 16px;
+      text-align: right;
+    `
     let sum = 0;
     let color;
     for (let a = 0; a < dataTransactions.length; a++){
@@ -54,9 +62,39 @@ export default function HomePage() {
     )
   }
 
+  function Valor(prop){
+    const Value = styled.div`
+      font-size: 16px;
+      text-align: right;
+    `
+    let sum = prop.value.replaceAll(".", ",");
+    let color;
+    if (sum < 0){
+      color = "negativo";
+    }
+    else if (sum >= 0){
+      color = "positivo";
+    }
+    let foundComa = -1;
+    for (let b = 0; b < sum.length; b++){
+      if (sum[b] == ","){
+        foundComa = b;
+      }
+    }
+    if (foundComa == -1){
+      sum = sum + ",00";
+    }
+    else if (foundComa == sum.length - 2){
+      sum = sum + "0";
+    }
+    return(
+      <Value data-test="registry-amount" color={color}>{sum}</Value>
+    )
+  }
+
   function logout(event){
     event.preventDefault();
-    localStorage.setItem("MyWalletUser", "");
+    localStorage.setItem("MyWalletUser", undefined);
     navigate("/");
   }
 
@@ -75,7 +113,7 @@ export default function HomePage() {
                 <span>{item.date}</span>
                 <strong data-test="registry-name">{item.name}</strong>
               </div>
-              <Value data-test="registry-amount" color={item.type}>{item.value}</Value>
+              <Valor color={item.type} value={item.value}/>
             </ListItemContainer>
           )}
         </ul>
@@ -152,11 +190,6 @@ const ButtonsContainer = styled.section`
       font-size: 18px;
     }
   }
-`
-const Value = styled.div`
-  font-size: 16px;
-  text-align: right;
-  color: ${(props) => (props.color === "positivo" ? "green" : "red")};
 `
 const ListItemContainer = styled.li`
   display: flex;

@@ -7,11 +7,14 @@ import axios from "axios"
 export default function TransactionsPage() {
   const navigate = useNavigate();
   const token = localStorage.getItem("MyWalletUser");
+  if (token == "undefined"){
+    window.location.assign("/");
+  }
   axios.defaults.headers.common['Authorization'] = token;
 
   let type = useParams().tipo.toString();
   //[{name: "Almoço mãe", date: "30/11", type: "negativo", value: "120,00"}, {name: "Salário", date: "15/11", type: "positivo", value: "3000,00"}]
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState();
   const [name, setName] = useState("");
 
   function sendValue(event){
