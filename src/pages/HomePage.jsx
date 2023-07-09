@@ -54,11 +54,17 @@ export default function HomePage() {
     )
   }
 
+  function logout(event){
+    event.preventDefault();
+    localStorage.setItem("MyWalletUser", "");
+    navigate("/");
+  }
+
   return (
     <HomeContainer>
       <Header>
         <h1 data-test="user-name">Olá, {user}</h1>
-        <BiExit data-test="logout"/>
+        <BiExit data-test="logout" onClick={event => logout(event)}/>
       </Header>
 
       <TransactionsContainer>
