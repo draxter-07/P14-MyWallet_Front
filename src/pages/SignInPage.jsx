@@ -10,9 +10,9 @@ export default function SignIn() {
   const navigate = useNavigate();
   function signIn(){
     const objSign = {email: email, password: password};
-    const req = axios.post(import.meta.env.VITE_API_URL + '/login', objSign);
-    //req.then(navigate("/home")); //pegar o r.mesagecomo token
-    //req.catch(response => alert(response));
+    axios.post(import.meta.env.VITE_API_URL + '/login', objSign)
+      .then(resposta => {console.log(resposta); navigate("/home")})
+      .catch(response => alert(response.response.data));
   }
   return (
     <SingInContainer>

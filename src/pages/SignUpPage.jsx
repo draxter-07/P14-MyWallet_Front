@@ -17,9 +17,9 @@ export default function SignUpPage() {
     if (password == confPassword && password != ''){
       // Envia para o backEnd
       const objSign = {name: name, email: email, password: password};
-      const req = axios.post(import.meta.env.VITE_API_URL + '/cadastro', objSign);
-      req.then(navigate("/"));
-      req.catch(response => alert(response.message));
+      axios.post(import.meta.env.VITE_API_URL + '/cadastro', objSign)
+        .then(resposta => {console.log(resposta)})
+        .catch(response => alert(response.response.data));
     }
     else{
       alert("As senhas inseridas não são as mesmas");
