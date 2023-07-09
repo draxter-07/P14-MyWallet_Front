@@ -18,7 +18,7 @@ export default function HomePage() {
   const [user, setUser] = useState("");
   useEffect(() => {
     axios.get(import.meta.env.VITE_API_URL + "/home")
-      .then(resposta => {setDataTrans(resposta.data.transactions); setUser(resposta.data.name)})
+      .then(resposta => {setDataTrans(resposta.data.transactions.reverse()); setUser(resposta.data.name)})
       .catch(response => alert(response.response.data));
     }, []);
 
@@ -26,6 +26,7 @@ export default function HomePage() {
     const Value = styled.div`
       font-size: 16px;
       text-align: right;
+      color: ${prop.color == "positivo" ? "green": "red"}
     `
     let sum = 0;
     let color;
@@ -36,12 +37,6 @@ export default function HomePage() {
       else if (dataTransactions[a].type == "negativo"){
         sum = sum - Number(dataTransactions[a].value.replaceAll(",", "."));
       }
-    }
-    if (sum < 0){
-      color = "negativo";
-    }
-    else if (sum >= 0){
-      color = "positivo";
     }
     sum = sum.toString().replaceAll("-", "").replace(".", ",");
     // Formatação do número
@@ -58,7 +53,7 @@ export default function HomePage() {
       sum = sum + "0";
     }
     return(
-      <Value data-test="total-amount" color={color}>{sum}</Value>
+      <Value data-test="total-amount">{sum}</Value>
     )
   }
 
@@ -66,6 +61,7 @@ export default function HomePage() {
     const Value = styled.div`
       font-size: 16px;
       text-align: right;
+      color: ${prop.color == "positivo" ? "green": "red"}
     `
     let sum = prop.value.replaceAll(".", ",");
     let color;
@@ -88,7 +84,7 @@ export default function HomePage() {
       sum = sum + "0";
     }
     return(
-      <Value data-test="registry-amount" color={color}>{sum}</Value>
+      <Value data-test="registry-amount">{sum}</Value>
     )
   }
 
